@@ -154,7 +154,7 @@ class _ResultScreenState extends State<ResultScreen> {
                         return DropdownMenuItem(
                             value: time,
                             child: Text(
-                                "${time ~/ 60} min") // секундийг минутад хөрвүүлж харуулах
+                                "${time ~/ 60} min") // секундийг минутад хөрвүүлж харуулаh
                             );
                       }).toList(),
                       onChanged: (value) {
