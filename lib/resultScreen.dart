@@ -30,6 +30,9 @@ class _ResultScreenState extends State<ResultScreen> {
   int _selectedTime = 60;
   double _selectedFontSize = 18.0;
 
+  // Toggle for game modes (Easy, Medium, Hard)
+  List<bool> _isSelectedGameMode = [true, false, false]; // Default: Easy selected
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -323,7 +326,7 @@ class _ResultScreenState extends State<ResultScreen> {
       ),
       child: ToggleButtons(
         borderRadius: BorderRadius.circular(32),
-        isSelected: [true, false, false],
+        isSelected: _isSelectedGameMode, // Using the selected game mode
         selectedColor: Colors.white,
         fillColor: Colors.blue,
         color: Colors.black,
@@ -332,7 +335,14 @@ class _ResultScreenState extends State<ResultScreen> {
           _gameModeButton('Medium'),
           _gameModeButton('Hard'),
         ],
-        onPressed: (int index) {},
+        onPressed: (int index) {
+          setState(() {
+            // Update the selection when a button is pressed
+            for (int i = 0; i < _isSelectedGameMode.length; i++) {
+              _isSelectedGameMode[i] = i == index;
+            }
+          });
+        },
       ),
     );
   }
