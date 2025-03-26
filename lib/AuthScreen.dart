@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:diplooajil/ButtonScreen.dart';
 
 void main() {
   runApp(const TypingMasterApp());
@@ -33,25 +34,35 @@ class _AuthScreenState extends State<AuthScreen> {
     });
   }
 
+  void handleAuthAction() {
+    if (isLogin) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ButtonScreen()),
+      );
+    } else {
+      setState(() {
+        isLogin = true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          // Background Elements
           Positioned(top: 0, left: 0, child: Image.asset('assets/images/main_top.png', width: 150)),
-          Positioned(bottom: 0, left: 0, child: Image.asset(isLogin ? 'assets/images/main_top.png' : 'assets/images/main_top.png', width: 150)),
+          Positioned(bottom: 0, left: 0, child: Image.asset('assets/images/main_top.png', width: 150)),
           Positioned(bottom: 0, right: 0, child: Image.asset('assets/images/login_bottom.png', width: 150)),
           
-          // Foreground Content
           Center(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Lottie Animation Placeholder
                   SizedBox(
                     height: 250,
                     width: 250,
@@ -60,7 +71,6 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  // Email Field
                   TextField(
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.person),
@@ -74,7 +84,6 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  // Password Field
                   TextField(
                     obscureText: true,
                     decoration: InputDecoration(
@@ -89,7 +98,6 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  // Login or Sign Up Button
                   SizedBox(
                     width: 300,
                     height: 50,
@@ -100,7 +108,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: handleAuthAction,
                       child: Text(
                         isLogin ? 'LOGIN' : 'SIGN UP',
                         style: const TextStyle(color: Colors.white, fontSize: 18),
@@ -108,7 +116,6 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  // Toggle Between Login and Sign Up
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

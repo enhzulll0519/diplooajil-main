@@ -1,7 +1,7 @@
-import 'package:diplooajil/AuthScreen.dart';
 import 'package:diplooajil/SpeedTypingScreen.dart';
 import 'package:diplooajil/StatisticsScreen.dart';
 import 'package:diplooajil/TypingScoreScreen.dart';
+import 'package:diplooajil/profileScreen.dart';
 import 'package:diplooajil/resultScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -21,7 +21,7 @@ class _ButtonScreenState extends State<ButtonScreen> {
     SpeedTypingScreen(),
     TypingScoreScreen(),
     StatisticsScreen(),
-    TypingMasterApp(),
+    UserProfileScreen(),
   ];
 
   @override

@@ -1,5 +1,6 @@
 import 'dart:ui';
-import 'package:diplooajil/ButtonScreen.dart';
+import 'package:diplooajil/AuthScreen.dart';
+// import 'package:diplooajil/ButtonScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -129,12 +130,12 @@ class _CourseDetailsPageState extends State<CourseDetailsPage> with SingleTicker
           ],
           onDone: () {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => ButtonScreen()),
+              MaterialPageRoute(builder: (_) => AuthScreen()),
             );
           },
           onSkip: () {
             Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => ButtonScreen()),
+              MaterialPageRoute(builder: (_) => AuthScreen()),
             );
           },
           showSkipButton: true,
