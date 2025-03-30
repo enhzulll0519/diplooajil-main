@@ -130,7 +130,7 @@ class UserHistoryScreen extends StatelessWidget {
         children: [
           Text(
             label,
-            style: GoogleFonts.roboto(
+            style: GoogleFonts.lobster(  // Apply Lobster font to the labels
               fontWeight: FontWeight.bold,
               fontSize: fontSize,
               color: Colors.deepPurple,
@@ -146,7 +146,7 @@ class UserHistoryScreen extends StatelessWidget {
             padding: isNumber ? EdgeInsets.symmetric(horizontal: 12, vertical: 6) : null,
             child: Text(
               value,
-              style: GoogleFonts.roboto(
+              style: GoogleFonts.lobster(  // Apply Lobster font to these values as well
                 fontSize: isNumber ? 24 : fontSize,  // Larger size for numbers
                 fontWeight: isNumber ? FontWeight.bold : FontWeight.w500,
                 color: valueColor,
