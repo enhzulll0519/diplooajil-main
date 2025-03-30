@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
+import 'package:google_fonts/google_fonts.dart'; // Import Google Fonts
 
 void main() {
   runApp(MyApp());
@@ -85,7 +86,10 @@ class _TypingScoreScreenState extends State<TypingScoreScreen>
                     children: [
                       Icon(Icons.star, color: Colors.amber),
                       SizedBox(width: 5),
-                      Text("HIGH SCORE", style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text(
+                        "HIGH SCORE",
+                        style: GoogleFonts.pacifico(fontWeight: FontWeight.bold), // Applied Google font
+                      ),
                     ],
                   ),
                 ),

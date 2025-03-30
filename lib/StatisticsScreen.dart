@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart'; // Google Fonts импортлох
 
 void main() {
   runApp(const MyApp());
@@ -23,16 +24,19 @@ class StatisticsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        // automaticallyImplyLeading: false, // Буцах товчийг нуух
+        title: Text(
           'Statistics',
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             fontSize: 24,
             fontWeight: FontWeight.bold,
-            color: Colors.purpleAccent,
+            color: Colors.purple,
+            shadows: [
+              Shadow(color: Colors.purpleAccent, blurRadius: 10), // Тень нэмсэн
+            ],
           ),
         ),
         centerTitle: true,
-        // backgroundColor: Colors.blueAccent,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -65,15 +69,15 @@ class StatisticsScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
+          children: [
             Row(
-              children: [
+              children: const [
                 Icon(Icons.star, color: Colors.amber),
                 SizedBox(width: 8),
                 Text('High Score', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               ],
             ),
-            Text('52 WPM', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const Text('52 WPM', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           ],
         ),
       ),

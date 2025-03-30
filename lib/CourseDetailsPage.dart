@@ -1,6 +1,5 @@
 import 'dart:ui';
-import 'package:diplooajil/AuthScreen.dart';
-// import 'package:diplooajil/ButtonScreen.dart';
+import 'package:diplooajil/AuthScreen.dart';  // Make sure AuthScreen is imported
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -58,7 +57,7 @@ class _CourseDetailsPageState extends State<CourseDetailsPage> with SingleTicker
             PageViewModel(
               titleWidget: Text(
                 "🔥Speed Typer",
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.pacifico(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -66,7 +65,7 @@ class _CourseDetailsPageState extends State<CourseDetailsPage> with SingleTicker
                 ),
               ),
               bodyWidget: Text(
-                "Speed Typer - Та шивэлтийн жинхэнэ мастер болоход бэлэн үү? 🏆.",
+                "Speed Typer - Та шивэлтийн жинхэнэ мастер болоход бэлэн үү? 🏆",
                 textAlign: TextAlign.center,
                 style: GoogleFonts.roboto(
                   fontSize: 18,
@@ -82,7 +81,7 @@ class _CourseDetailsPageState extends State<CourseDetailsPage> with SingleTicker
             PageViewModel(
               titleWidget: Text(
                 "✨ ЯАГААД Speed Typer?",
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.pacifico(
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -99,14 +98,14 @@ class _CourseDetailsPageState extends State<CourseDetailsPage> with SingleTicker
                 ),
               ),
               image: Center(
-                child: Lottie.asset("assets/lottie/loading.json", height: 500,),
+                child: Lottie.asset("assets/lottie/loading.json", height: 500),
               ),
               decoration: getPageDecoration(),
             ),
             PageViewModel(
               titleWidget: Text(
                 "🚀 Let's start now!",
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.pacifico(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,

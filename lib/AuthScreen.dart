@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:diplooajil/ButtonScreen.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() {
   runApp(const TypingMasterApp());
@@ -27,6 +29,9 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   bool isLogin = true;
+  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   void toggleScreen() {
     setState(() {
@@ -34,19 +39,62 @@ class _AuthScreenState extends State<AuthScreen> {
     });
   }
 
-  void handleAuthAction() {
-    if (isLogin) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => ButtonScreen()),
-      );
-    } else {
-      setState(() {
-        isLogin = true;
-      });
-    }
-  }
+  // Register or Login function
+  Future<void> handleAuthAction() async {
+  final url = isLogin
+      ? Uri.parse('http://127.0.0.1:8000/api/users/login/')
+      : Uri.parse('http://127.0.0.1:8000/api/users/register/');
 
+  try {
+    final response = await http.post(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: json.encode(
+        isLogin
+            ? { // Нэвтрэх үед зөвхөн email, password илгээнэ
+                'email': emailController.text,
+                'password': passwordController.text,
+              }
+            : { // Бүртгүүлэх үед username, email, password 3-г илгээнэ
+                'username': usernameController.text,
+                'email': emailController.text,
+                'password': passwordController.text,
+              },
+      ),
+    );
+
+    final responseData = json.decode(response.body);
+    print('Response Data: $responseData');  // Log the response
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      if (isLogin) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => ButtonScreen()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Амжилттай бүртгэгдлээ! Та одоо нэвтэрч болно.')),
+        );
+        setState(() {
+          isLogin = true; // Login руу шилжүүлэх
+        });
+      }
+    } else {
+      String errorMessage = responseData['error'] ?? 'Алдаа гарлаа';
+      print('Error message from server: $errorMessage'); // Log for debugging
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
+    }
+  } catch (e) {
+    print('Request error: $e');  // Log the exception for debugging
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Алдаа гарлаа: $e')),
+    );
+  }
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,79 +108,116 @@ class _AuthScreenState extends State<AuthScreen> {
           Center(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 250,
-                    width: 250,
-                    child: Lottie.asset(
-                      isLogin ? 'assets/lottie/login.json' : 'assets/lottie/speed.json',
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  TextField(
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.person),
-                      hintText: "Your email",
-                      filled: true,
-                      fillColor: Colors.purple.shade50,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 200,
+                      width: 200,
+                      child: Lottie.asset(
+                        isLogin ? 'assets/lottie/login.json' : 'assets/lottie/speed.json',
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 15),
-                  TextField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.lock),
-                      hintText: "Your password",
-                      filled: true,
-                      fillColor: Colors.purple.shade50,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    width: 300,
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.purple,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                      onPressed: handleAuthAction,
-                      child: Text(
-                        isLogin ? 'LOGIN' : 'SIGN UP',
-                        style: const TextStyle(color: Colors.white, fontSize: 18),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(isLogin ? "Don't have an account? " : "Already have an account? "),
-                      GestureDetector(
-                        onTap: toggleScreen,
-                        child: Text(
-                          isLogin ? "Sign Up" : "Sign In",
-                          style: const TextStyle(
-                            color: Colors.purple,
-                            fontWeight: FontWeight.bold,
+                    const SizedBox(height: 20),
+                    if (!isLogin) ...[ // Sign Up fields
+                      TextField(
+                        controller: usernameController,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.person),
+                          hintText: "Your name",
+                          filled: true,
+                          fillColor: Colors.purple.shade50,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: BorderSide.none,
                           ),
                         ),
                       ),
+                      const SizedBox(height: 15),
                     ],
-                  ),
-                ],
+                    TextField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.email),
+                        hintText: "Your email",
+                        filled: true,
+                        fillColor: Colors.purple.shade50,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    TextField(
+                      controller: passwordController,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.lock),
+                        hintText: "Your password",
+                        filled: true,
+                        fillColor: Colors.purple.shade50,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    if (!isLogin) ...[ // Password Repeat field
+                      TextField(
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.lock),
+                          hintText: "Repeat your password",
+                          filled: true,
+                          fillColor: Colors.purple.shade50,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.purple,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        ),
+                        onPressed: handleAuthAction,
+                        child: Text(
+                          isLogin ? 'LOGIN' : 'SIGN UP',
+                          style: const TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(isLogin ? "Don't have an account? " : "Already have an account? "),
+                        GestureDetector(
+                          onTap: toggleScreen,
+                          child: Text(
+                            isLogin ? "Sign Up" : "Sign In",
+                            style: const TextStyle(
+                              color: Colors.purple,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
