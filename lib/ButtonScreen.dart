@@ -12,53 +12,40 @@ class ButtonScreen extends StatefulWidget {
 }
 
 class _ButtonScreenState extends State<ButtonScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1; // Default to SpeedTypingScreen
 
-  // List of pages for different tabs
   final List<Widget> _screens = [
-    // Home screen is now replaced by ResultScreen
-    Container(), // Empty container as the home screen will show ResultScreen immediately
+    // Empty container for home screen, can be customized to show ResultScreen
+    ResultScreen(), // Home screen showing ResultScreen
     SpeedTypingScreen(),
     TypingScoreScreen(),
-    StatisticsScreen(),
     UserHistoryScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Speed Typer'),
-      //   centerTitle: false, // Align title to the left
-      // ),
-      body: _selectedIndex == 0 ? ResultScreen() : _screens[_selectedIndex], // Show ResultScreen for Home tab
+      body: _screens[_selectedIndex], // Render the selected screen
       bottomNavigationBar: CurvedNavigationBar(
-        index: _selectedIndex, // Set selected index
+        index: _selectedIndex,
         onTap: (index) {
-          if (index == 0) {
-            // If the user taps Home, navigate to ResultScreen directly
-            setState(() {
-              _selectedIndex = index;
-            });
-          } else {
-            setState(() {
-              _selectedIndex = index; // Change tab for other selections
-            });
-          }
+          setState(() {
+            _selectedIndex = index;
+          });
         },
-        height: 60, // Set height for navigation bar
+        height: 60,
         items: <Widget>[
           Icon(Icons.sports_esports, size: 30),
           Icon(Icons.timer, size: 30),
-          Icon(Icons.bar_chart, size: 30),
           Icon(Icons.show_chart, size: 30),
+          // Icon(Icons.show_chart, size: 30),
           Icon(Icons.person, size: 30),
         ],
-        color: Colors.purple, // Set navigation bar color
-        backgroundColor: Colors.white, // Set background color for the bar
-        buttonBackgroundColor: Colors.white, // Set the color for selected button
-        animationCurve: Curves.easeInOut, // Set animation curve
-        animationDuration: Duration(milliseconds: 300), // Set animation duration
+        color: Colors.purple,
+        backgroundColor: Colors.white,
+        buttonBackgroundColor: Colors.white,
+        animationCurve: Curves.easeInOut,
+        // animationDuration: Duration(milliseconds: 300),
       ),
     );
   }

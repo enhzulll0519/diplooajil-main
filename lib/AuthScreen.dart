@@ -3,6 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:diplooajil/ButtonScreen.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import './include.dart';
 
 void main() {
   runApp(const TypingMasterApp());
@@ -42,8 +43,8 @@ class _AuthScreenState extends State<AuthScreen> {
   // Register or Login function
   Future<void> handleAuthAction() async {
   final url = isLogin
-      ? Uri.parse('http://127.0.0.1:8000/api/users/login/')
-      : Uri.parse('http://127.0.0.1:8000/api/users/register/');
+      ? Uri.parse(baseurl + 'users/login/')
+      : Uri.parse(baseurl + 'users/register/');
 
   try {
     final response = await http.post(

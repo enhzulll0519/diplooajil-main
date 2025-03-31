@@ -1,3 +1,4 @@
+import 'package:diplooajil/ButtonScreen.dart';
 import 'package:diplooajil/SpeedTypingScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -247,29 +248,27 @@ class _ResultScreenState extends State<ResultScreen> {
     return Column(
       children: [
         ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.greenAccent,
-            minimumSize: Size(double.infinity, 60),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-          onPressed: () {
-            // Navigate to the SpeedTypingScreen when "Play Again" is pressed
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => SpeedTypingScreen()),
-            );
-          },
-          child: Text(
-            'Play Again',
-            style: GoogleFonts.poppins(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
-          ),
-        ),
-        SizedBox(height: 10),
+  style: ElevatedButton.styleFrom(
+    backgroundColor: Colors.greenAccent,
+    minimumSize: Size(double.infinity, 60),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+  ),
+  onPressed: () {
+    // Navigate to ButtonScreen first to keep the bottom navigation bar
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => ButtonScreen()),
+    );
+  },
+  child: Text(
+    'Play Again',
+    style: GoogleFonts.poppins(
+      color: Colors.black,
+      fontWeight: FontWeight.bold,
+      fontSize: 18,
+    ),
+  ),
+)
       ],
     );
   }
